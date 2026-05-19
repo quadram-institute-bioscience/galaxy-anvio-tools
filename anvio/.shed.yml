@@ -1,0 +1,14 @@
+owner: telatina
+name: anvi_gen_contigs_database
+description: "Generate an Anvi'o contigs database from a FASTA file"
+long_description: |
+  Runs anvi-gen-contigs-database to build an Anvi'o contigs database from a
+  FASTA file. The output is typed as anvio_contigs_db so downstream Anvi'o
+  wrappers can require this specific datatype. Supports Prodigal gene calling
+  (metagenome or single-genome mode), external gene calls, and configurable
+  k-mer size and split length.
+homepage_url: https://anvio.org
+type: unrestricted
+categories:
+  - Metagenomics
+  - Assembly

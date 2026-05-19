@@ -1,0 +1,213 @@
+<tool id="anvi_gen_contigs_database"
+      name="Anvi'o: Generate contigs database"
+      version="9+galaxy0"
+      profile="22.05">
+
+    <description>from a FASTA file</description>
+
+    <requirements>
+        <requirement type="package" version="9">anvio-minimal</requirement>
+        <container type="singularity">https://depot.galaxyproject.org/singularity/anvio-minimal%3A9--pyhdfd78af_0</container>
+        <container type="docker">quay.io/biocontainers/anvio-minimal:9--pyhdfd78af_0</container>
+    </requirements>
+
+    <command detect_errors="aggressive"><![CDATA[
+#if $contigs_fasta.is_of_type('fasta.gz')
+    #set $input_fasta = 'input.fa.gz'
+#else
+    #set $input_fasta = 'input.fa'
+#end if
+
+ln -s '$contigs_fasta' '$input_fasta' &&
+
+#if $gene_calling.external_gene_calls
+    ln -s '$gene_calling.external_gene_calls' 'external_gene_calls.txt' &&
+#end if
+
+#if $description
+    ln -s '$description' 'description.txt' &&
+#end if
+
+mkdir -p '$contigs_db.extra_files_path' &&
+
+anvi-gen-contigs-database
+    -f '$input_fasta'
+    -o '$contigs_db.extra_files_path/CONTIGS.db'
+    --project-name '$project_name'
+    -T \${GALAXY_SLOTS:-1}
+    --kmer-size '$advanced.kmer_size'
+    --split-length '$advanced.split_length'
+    $advanced.skip_gene_calling
+    $advanced.skip_mindful_splitting
+    #if not $advanced.skip_gene_calling
+        $gene_calling.prodigal_single_mode
+        #if $gene_calling.prodigal_translation_table
+            --prodigal-translation-table '$gene_calling.prodigal_translation_table'
+        #end if
+        #if $gene_calling.external_gene_calls
+            --external-gene-calls 'external_gene_calls.txt'
+            $gene_calling.ignore_internal_stop_codons
+            $gene_calling.skip_predict_frame
+        #end if
+    #end if
+    #if $description
+        --description 'description.txt'
+    #end if
+&&
+
+printf '<!DOCTYPE html>\n<html>\n  <head>\n    <title>Anvi&#39;o contigs database</title>\n  </head>\n  <body>\n    <h3>Anvi&#39;o contigs database</h3>\n    <p>This Galaxy dataset contains an Anvi&#39;o contigs database.</p>\n    <ul>\n      <li><a href="CONTIGS.db">CONTIGS.db</a></li>\n    </ul>\n  </body>\n</html>\n' > '$contigs_db'
+    ]]></command>
+
+    <inputs>
+        <param name="contigs_fasta"
+               type="data"
+               format="fasta,fasta.gz"
+               label="Contigs FASTA"
+               help="Input FASTA file containing one or more contig sequences."/>
+
+        <param name="project_name"
+               type="text"
+               value="anvio_contigs_db"
+               label="Project name"
+               help="Short descriptive name for this contigs database.">
+            <validator type="regex"
+                       message="Use only letters, numbers, underscores, dots, or hyphens.">^[A-Za-z0-9_.-]+$</validator>
+        </param>
+
+        <param name="description"
+               type="data"
+               format="txt"
+               optional="true"
+               label="Project description (optional)"
+               help="Plain text file (Markdown supported) shown in Anvi'o interfaces and summary outputs."/>
+
+        <section name="gene_calling" title="Gene calling options" expanded="false">
+            <param name="prodigal_single_mode"
+                   type="boolean"
+                   checked="false"
+                   truevalue="--prodigal-single-mode"
+                   falsevalue=""
+                   label="Prodigal single-genome mode"
+                   help="Use Prodigal in single-genome mode instead of metagenome mode. Recommended when the input is an isolated genome rather than metagenomic contigs."/>
+
+            <param name="prodigal_translation_table"
+                   type="integer"
+                   optional="true"
+                   min="1"
+                   label="Prodigal translation table"
+                   help="NCBI translation table number for Prodigal gene calling (e.g. 4 for Mycoplasma). Leave blank to use Prodigal's default."/>
+
+            <param name="external_gene_calls"
+                   type="data"
+                   format="tabular"
+                   optional="true"
+                   label="External gene calls (optional)"
+                   help="TAB-delimited file with custom gene calls. Required columns: gene_callers_id, contig, start, stop, direction, partial, call_type, source, version. Optional column: aa_sequence."/>
+
+            <param name="ignore_internal_stop_codons"
+                   type="boolean"
+                   checked="false"
+                   truevalue="--ignore-internal-stop-codons"
+                   falsevalue=""
+                   label="Ignore internal stop codons in external gene calls"
+                   help="Only relevant when providing external gene calls. Replaces internal stop codons with X in amino acid sequences instead of raising an error."/>
+
+            <param name="skip_predict_frame"
+                   type="boolean"
+                   checked="false"
+                   truevalue="--skip-predict-frame"
+                   falsevalue=""
+                   label="Skip frame prediction for external gene calls"
+                   help="Only relevant when providing external gene calls. Disables the Markov-model-based frame correction and translates sequences exactly as defined by start/stop positions."/>
+        </section>
+
+        <section name="advanced" title="Advanced options" expanded="false">
+            <param name="kmer_size"
+                   type="integer"
+                   value="4"
+                   min="1"
+                   max="5"
+                   label="K-mer size"
+                   help="Default is 4. Standard Anvi'o installations should not use values above 5."/>
+
+            <param name="split_length"
+                   type="integer"
+                   value="20000"
+                   min="-1"
+                   label="Split length"
+                   help="Contigs longer than this value are soft-split by Anvi'o. Set to 0 or a negative value to disable splitting entirely."/>
+
+            <param name="skip_gene_calling"
+                   type="boolean"
+                   checked="false"
+                   truevalue="--skip-gene-calling"
+                   falsevalue=""
+                   label="Skip gene calling"
+                   help="Do not run Prodigal. Gene calling options above are ignored when this is enabled."/>
+
+            <param name="skip_mindful_splitting"
+                   type="boolean"
+                   checked="false"
+                   truevalue="--skip-mindful-splitting"
+                   falsevalue=""
+                   label="Skip mindful splitting"
+                   help="By default Anvi'o avoids splitting contigs in the middle of genes. This flag disables that behaviour."/>
+        </section>
+    </inputs>
+
+    <outputs>
+        <data name="contigs_db"
+              format="anvio_contigs_db"
+              label="${tool.name} on ${on_string}: contigs database"/>
+    </outputs>
+
+    <tests>
+        <test expect_num_outputs="1">
+            <param name="contigs_fasta" value="contigs.fasta"/>
+            <param name="project_name" value="test_project"/>
+            <output name="contigs_db">
+                <assert_contents>
+                    <has_text text="CONTIGS.db"/>
+                </assert_contents>
+            </output>
+        </test>
+    </tests>
+
+    <help><![CDATA[
+Generate an Anvi'o contigs database from a FASTA file.
+
+This wrapper runs::
+
+    anvi-gen-contigs-database -f contigs.fa -o CONTIGS.db
+
+The Galaxy output is typed as ``anvio_contigs_db`` so downstream Anvi'o
+wrappers can require this specific datatype rather than accepting an
+untyped binary or generic SQLite file.
+
+Anvi'o stores key information about the input sequences in the contigs
+database, including k-mer frequencies, contig splits, and gene calls (via
+Prodigal) unless gene calling is skipped or overridden with external calls.
+
+**Gene calling options**
+
+By default Anvi'o runs Prodigal in metagenome mode. Use *single-genome mode*
+when the input is an isolated genome. If you already have gene predictions,
+supply them as an *external gene calls* file and Anvi'o will skip Prodigal
+entirely for those sequences.
+
+**Split length**
+
+Anvi'o soft-splits long contigs into smaller pieces to improve visualisation
+resolution. The default is 20,000 bp. Set to 0 or a negative value to
+disable splitting.
+    ]]></help>
+
+    <citations>
+        <citation type="bibtex">
+@misc{anvio,
+  title = {Anvi'o},
+  url = {https://anvio.org/}
+}
+        </citation>
+    </citations>
+</tool>
