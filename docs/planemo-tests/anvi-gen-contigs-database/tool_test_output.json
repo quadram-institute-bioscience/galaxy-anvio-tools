@@ -1,0 +1,110 @@
+{
+    "summary": {
+        "num_errors": 0,
+        "num_failures": 0,
+        "num_skips": 0,
+        "num_tests": 1
+    },
+    "tests": [
+        {
+            "data": {
+                "inputs": {
+                    "contigs_fasta": {
+                        "id": "c3dec10e5319f53e",
+                        "src": "hda"
+                    },
+                    "project_name": "test_project"
+                },
+                "job": {
+                    "command_line": "ln -s '/tmp/tmpjt53wqyr/files/9/c/6/dataset_9c671f82-9887-472f-9e21-156039d5d23b.dat' 'input.fa' &&    mkdir -p '/tmp/tmpjt53wqyr/job_working_directory/000/2/outputs/dataset_1ef956a0-490f-4c41-a6f6-b6d61dcb2c69_files' &&  anvi-gen-contigs-database -f 'input.fa' -o '/tmp/tmpjt53wqyr/job_working_directory/000/2/outputs/dataset_1ef956a0-490f-4c41-a6f6-b6d61dcb2c69_files/CONTIGS.db' --project-name 'test_project' -T ${GALAXY_SLOTS:-1} --kmer-size '4' --split-length '20000'    &&  printf '<!DOCTYPE html>\\n<html>\\n  <head>\\n    <title>Anvi&#39;o contigs database</title>\\n  </head>\\n  <body>\\n    <h3>Anvi&#39;o contigs database</h3>\\n    <p>This Galaxy dataset contains an Anvi&#39;o contigs database.</p>\\n    <ul>\\n      <li><a href=\"CONTIGS.db\">CONTIGS.db</a></li>\\n    </ul>\\n  </body>\\n</html>\\n' > '/tmp/tmpjt53wqyr/job_working_directory/000/2/outputs/dataset_1ef956a0-490f-4c41-a6f6-b6d61dcb2c69.dat'",
+                    "command_version": "",
+                    "copied_from_job_id": null,
+                    "create_time": "2026-05-19T14:34:15.100742",
+                    "dependencies": [],
+                    "exit_code": 0,
+                    "external_id": "18500",
+                    "galaxy_version": "26.0",
+                    "handler": null,
+                    "history_id": "c3dec10e5319f53e",
+                    "id": "38f771982452639b",
+                    "inputs": {
+                        "contigs_fasta": {
+                            "id": "c3dec10e5319f53e",
+                            "src": "hda",
+                            "uuid": "9c671f82-9887-472f-9e21-156039d5d23b"
+                        }
+                    },
+                    "job_messages": [],
+                    "job_metrics": [
+                        {
+                            "name": "galaxy_slots",
+                            "plugin": "core",
+                            "raw_value": "1.0000000",
+                            "title": "Cores Allocated",
+                            "value": "1"
+                        },
+                        {
+                            "name": "start_epoch",
+                            "plugin": "core",
+                            "raw_value": "1779201255.0000000",
+                            "title": "Job Start Time",
+                            "value": "2026-05-19 15:34:15"
+                        },
+                        {
+                            "name": "end_epoch",
+                            "plugin": "core",
+                            "raw_value": "1779201267.0000000",
+                            "title": "Job End Time",
+                            "value": "2026-05-19 15:34:27"
+                        },
+                        {
+                            "name": "runtime_seconds",
+                            "plugin": "core",
+                            "raw_value": "12.0000000",
+                            "title": "Job Runtime (Wall Clock)",
+                            "value": "12 seconds"
+                        }
+                    ],
+                    "job_runner_name": null,
+                    "job_stderr": "",
+                    "job_stdout": "",
+                    "model_class": "Job",
+                    "output_collections": {},
+                    "outputs": {
+                        "contigs_db": {
+                            "id": "38f771982452639b",
+                            "src": "hda",
+                            "uuid": "1ef956a0-490f-4c41-a6f6-b6d61dcb2c69"
+                        }
+                    },
+                    "params": {
+                        "__input_ext": "\"input\"",
+                        "advanced": "{\"kmer_size\": \"4\", \"skip_gene_calling\": false, \"skip_mindful_splitting\": false, \"split_length\": \"20000\"}",
+                        "chromInfo": "\"/tmp/tmpjt53wqyr/galaxy-dev/tool-data/shared/ucsc/chrom/?.len\"",
+                        "dbkey": "\"?\"",
+                        "description": null,
+                        "gene_calling": "{\"external_gene_calls\": null, \"ignore_internal_stop_codons\": false, \"prodigal_single_mode\": false, \"prodigal_translation_table\": \"\", \"skip_predict_frame\": false}",
+                        "project_name": "\"test_project\""
+                    },
+                    "state": "ok",
+                    "stderr": "\r                                                                                \rInput FASTA file .............................: /tmp/tmpjt53wqyr/job_working_directory/000/2/working/input.fa\n\r                                                                                \rName .........................................: test_project\n\r                                                                                \rDescription ..................................: No description is given\n\r                                                                                \r\nCITATION\n===============================================\nAnvi'o will use 'pyrodigal-gv' by Martin Larralde to identify open reading\nframes in your data. It is an extension of 'pyrodigal'\n(doi:10.21105/joss.04296), which builds upon the approach originally implemented\nby Hyatt et al (doi:10.1186/1471-2105-11-119), with additional metagenomics\nmodels for giant viruses and viruses with alternative genetic codes by Camargo\net al. (doi:10.1038/s41587-023-01953-y). If you publish your findings, please do\nnot forget to properly credit all three work.\n\n\r                                                                                \r\nFinding ORFs using pyrodigal-gv 0.3.2\n===============================================\n\r                                                                                \rNumber of sequences ..........................: 250\n\r                                                                                \rProcedure ....................................: Metagenome (without `--prodigal-single-mode`)\n\r                                                                                \rFull gene calling reporting requested? .......: No\n\r                                                                                \rResult .......................................: Pyrodigal-gv (v0.3.2) has identified 299 genes.\n\n\r                                                                                \r\nCONTIGS DB CREATE REPORT\n===============================================\n\r                                                                                \rSplit Length .................................: 20,000\n\r                                                                                \rK-mer size ...................................: 4\n\r                                                                                \rSkip gene calling? ...........................: False\n\r                                                                                \rExternal gene calls provided? ................: False\n\r                                                                                \rIs pyrodigal-gv run in single mode? ..........: NO\n\r                                                                                \rIgnoring internal stop codons? ...............: False\n\r                                                                                \rSplitting pays attention to gene calls? ......: True\n\r                                                                                \rContigs with at least one gene call ..........: 235 of 250 (94.0%)\n\r                                                                                \rContigs database .............................: A new database, /tmp/tmpjt53wqyr/job_working_directory/000/2/outputs/dataset_1ef956a0-490f-4c41-a6f6-b6d61dcb2c69_files/CONTIGS.db, has been created.\n\r                                                                                \rNumber of contigs ............................: 250\n\r                                                                                \rNumber of splits .............................: 250\n\r                                                                                \rTotal number of nucleotides ..................: 103,918\n\r                                                                                \rGene calling step skipped ....................: False\n\r                                                                                \rSplits broke genes (non-mindful mode) ........: False\n\r                                                                                \rDesired split length (what the user wanted) ..: 20,000\n\r                                                                                \rAverage split length (what anvi'o gave back) .: (Anvi'o did not create any splits)\n",
+                    "stdout": "",
+                    "tool_id": "anvi_gen_contigs_database",
+                    "tool_stderr": "\r                                                                                \rInput FASTA file .............................: /tmp/tmpjt53wqyr/job_working_directory/000/2/working/input.fa\n\r                                                                                \rName .........................................: test_project\n\r                                                                                \rDescription ..................................: No description is given\n\r                                                                                \r\nCITATION\n===============================================\nAnvi'o will use 'pyrodigal-gv' by Martin Larralde to identify open reading\nframes in your data. It is an extension of 'pyrodigal'\n(doi:10.21105/joss.04296), which builds upon the approach originally implemented\nby Hyatt et al (doi:10.1186/1471-2105-11-119), with additional metagenomics\nmodels for giant viruses and viruses with alternative genetic codes by Camargo\net al. (doi:10.1038/s41587-023-01953-y). If you publish your findings, please do\nnot forget to properly credit all three work.\n\n\r                                                                                \r\nFinding ORFs using pyrodigal-gv 0.3.2\n===============================================\n\r                                                                                \rNumber of sequences ..........................: 250\n\r                                                                                \rProcedure ....................................: Metagenome (without `--prodigal-single-mode`)\n\r                                                                                \rFull gene calling reporting requested? .......: No\n\r                                                                                \rResult .......................................: Pyrodigal-gv (v0.3.2) has identified 299 genes.\n\n\r                                                                                \r\nCONTIGS DB CREATE REPORT\n===============================================\n\r                                                                                \rSplit Length .................................: 20,000\n\r                                                                                \rK-mer size ...................................: 4\n\r                                                                                \rSkip gene calling? ...........................: False\n\r                                                                                \rExternal gene calls provided? ................: False\n\r                                                                                \rIs pyrodigal-gv run in single mode? ..........: NO\n\r                                                                                \rIgnoring internal stop codons? ...............: False\n\r                                                                                \rSplitting pays attention to gene calls? ......: True\n\r                                                                                \rContigs with at least one gene call ..........: 235 of 250 (94.0%)\n\r                                                                                \rContigs database .............................: A new database, /tmp/tmpjt53wqyr/job_working_directory/000/2/outputs/dataset_1ef956a0-490f-4c41-a6f6-b6d61dcb2c69_files/CONTIGS.db, has been created.\n\r                                                                                \rNumber of contigs ............................: 250\n\r                                                                                \rNumber of splits .............................: 250\n\r                                                                                \rTotal number of nucleotides ..................: 103,918\n\r                                                                                \rGene calling step skipped ....................: False\n\r                                                                                \rSplits broke genes (non-mindful mode) ........: False\n\r                                                                                \rDesired split length (what the user wanted) ..: 20,000\n\r                                                                                \rAverage split length (what anvi'o gave back) .: (Anvi'o did not create any splits)\n",
+                    "tool_stdout": "",
+                    "update_time": "2026-05-19T14:34:27.351948",
+                    "user_email": "planemo@galaxyproject.org",
+                    "user_id": "c3dec10e5319f53e"
+                },
+                "status": "success",
+                "test_index": 0,
+                "time_seconds": 25.065576791763306,
+                "tool_id": "anvi_gen_contigs_database",
+                "tool_version": "9+galaxy0"
+            },
+            "has_data": true,
+            "id": "anvi_gen_contigs_database-0"
+        }
+    ],
+    "version": "0.1"
+}
